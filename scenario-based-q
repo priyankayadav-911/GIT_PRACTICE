@@ -1,0 +1,160 @@
+SCENARIO 1: You started work on wrong branch
+❓ Situation:
+
+You made changes on main instead of feature/login
+
+✅ Fix:
+# Save current changes
+git stash
+
+# Switch to correct branch
+git checkout feature/login
+
+# Apply changes
+git stash pop
+💡 Better way (cleaner approach):
+git checkout -b feature/login
+
+👉 This moves your current work into a new branch
+
+Layman:
+You wrote notes in the wrong notebook → move them to the correct one
+
+🔥 SCENARIO 2: Undo last commit (but keep code)
+❓ Situation:
+
+You committed but forgot to add one file
+
+✅ Fix:
+git reset --soft HEAD~1
+
+Then:
+
+git add .
+git commit -m "updated commit"
+
+Layman:
+Undo the “save”, but keep your work
+
+🔥 SCENARIO 3: Undo last commit completely (danger)
+git reset --hard HEAD~1
+
+⚠️ Deletes code permanently
+
+Layman:
+Delete last step like it never happened
+
+🔥 SCENARIO 4: Fix wrong commit message
+git commit --amend -m "correct message"
+🔥 SCENARIO 5: Push rejected (someone pushed before you)
+❓ Error:
+rejected: fetch first
+✅ Fix:
+git pull origin main --rebase
+git push origin main
+
+Layman:
+Take latest updates → then add yours
+
+🔥 SCENARIO 6: Resolve merge conflict
+❓ Situation:
+
+Two people changed same file
+
+Steps:
+git pull origin main
+
+👉 Conflict appears
+
+Open file:
+
+<<<<<<< HEAD
+your code
+=======
+other code
+>>>>>>> branch
+Fix:
+Edit manually
+Remove conflict markers
+
+Then:
+
+git add .
+git commit -m "resolved conflict"
+🔥 SCENARIO 7: Recover deleted branch
+git reflog
+
+Find commit ID
+
+git checkout -b recovered-branch <commit_id>
+
+Layman:
+Git keeps hidden history → you can recover lost work
+
+🔥 SCENARIO 8: Move one commit to another branch
+git cherry-pick <commit_id>
+🔥 SCENARIO 9: Temporarily save work (urgent switch)
+git stash
+git checkout main
+
+Later:
+
+git stash pop
+🔥 SCENARIO 10: Remove file from Git but keep locally
+git rm --cached file.txt
+🔥 SCENARIO 11: Clean commit history (important for interviews)
+git rebase -i HEAD~3
+
+Options:
+
+squash
+edit
+drop
+
+👉 Used before PR
+
+🔥 SCENARIO 12: Rollback production issue safely
+git revert <commit_id>
+
+👉 Creates new commit (safe for teams)
+
+DO NOT USE:
+
+git reset --hard   ❌ (in shared repo)
+🔥 SCENARIO 13: Clone specific branch only
+git clone -b dev <repo_url>
+🔥 SCENARIO 14: Check who changed what
+git blame file.txt
+🔥 SCENARIO 15: Find bug using commits
+git bisect start
+git bisect bad
+git bisect good <commit_id>
+
+👉 Git auto-finds bad commit
+
+🔥 SCENARIO 16: Tag release version
+git tag v1.0
+git push origin v1.0
+🔥 SCENARIO 17: Force push (DANGEROUS)
+git push --force
+
+👉 Only use if:
+
+You know impact
+No one else is working
+🔥 SCENARIO 18: Sync forked repo
+git remote add upstream <original_repo>
+git fetch upstream
+git merge upstream/main
+🔥 SCENARIO 19: Ignore already committed file
+git rm -r --cached .
+git add .
+git commit -m "apply gitignore"
+🔥 SCENARIO 20: Large team workflow (real DevOps)
+Flow:
+git checkout -b feature/payment
+git add .
+git commit -m "feature added"
+git push origin feature/payment
+
+👉 Create PR → review → merge to develop → pipeline runs (e.g., Jenkins)
